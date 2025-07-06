@@ -8,132 +8,168 @@
     <style>
         * {
             scroll-behavior: smooth;
+            box-sizing: border-box;
         }
 
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f2f5;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
 
         header {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 20px;
+            background-color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         #searchBar {
-            padding: 10px 15px;
-            border: 1px solid #ccc;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
             border-radius: 6px;
-            width: 250px;
+            width: 100%;
             font-size: 1em;
-            position: fixed;
-            z-index: 900;
+        }
+
+        .category-header {
+            background-color: white;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-bottom: 1px solid #eee;
         }
 
         .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
-            position: relative;
-            top: 100px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 10px;
+            background-color: #f0f2f5;
         }
 
         .product-card {
             background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 230px;
-            text-align: center;
+            border-radius: 8px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.2s ease-in-out;
-            scroll-margin-top: 100px;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
         .product-card img {
-            max-width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 18px;
-            background-color: #e9ecef;
+            width: 100%;
+            height: 120px;
             object-fit: contain;
+            background-color: #e9ecef;
+            margin-bottom: 8px;
         }
 
         .product-card h3 {
-            font-size: 1.3em;
+            font-size: 0.9em;
             color: #333;
-            margin-top: 0;
-            margin-bottom: 8px;
+            margin: 0 0 4px 0;
             line-height: 1.3;
+            height: 2.6em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
         }
 
         .product-card .product-id {
-            font-size: 0.85em;
+            font-size: 0.7em;
             color: #777;
-            margin-bottom: 18px;
+            margin-bottom: 6px;
         }
 
         .product-card .price {
-            font-size: 1.6em;
+            font-size: 1em;
             font-weight: bold;
             color: #28a745;
-            margin-top: auto;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .product-card a button {
             background-color: #007bff;
             color: white;
-            padding: 12px 25px;
+            padding: 6px 10px;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 1.05em;
+            font-size: 0.8em;
             font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
             width: 100%;
         }
 
-        .product-card a button:hover {
-            background-color: #0056b3;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .product-card {
-                position: relative;
+        /* Desktop view */
+        @media (min-width: 601px) {
+            header {
+                display: flex;
+                justify-content: flex-end;
+                padding: 20px;
+                position: fixed;
                 width: 100%;
-                left: -7%;
+                background-color: transparent;
+                box-shadow: none;
             }
 
             #searchBar {
-                width: 100%;
-                position: static;
+                width: 250px;
+            }
+
+            .container {
+                grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                gap: 25px;
+                padding: 100px 20px 20px;
+            }
+
+            .product-card {
+                padding: 20px;
+                border-radius: 12px;
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .product-card img {
+                height: 200px;
+                margin-bottom: 18px;
+            }
+
+            .product-card h3 {
+                font-size: 1.3em;
+                height: auto;
+                -webkit-line-clamp: unset;
+            }
+
+            .product-card .product-id {
+                font-size: 0.85em;
+                margin-bottom: 18px;
+            }
+
+            .product-card .price {
+                font-size: 1.6em;
+                margin-bottom: 20px;
+            }
+
+            .product-card a button {
+                padding: 12px 25px;
+                font-size: 1.05em;
             }
         }
     </style>
 </head>
 
 <body>
-
     <header>
         <input type="text" id="searchBar" placeholder="Search by name or ID..." />
     </header>
+
+    <div class="category-header">All Shoes</div>
 
     <div class="container" id="shoeContainer"></div>
 
@@ -176,14 +212,14 @@
             const whatsappLink = `https://wa.me/2347041545267?text=${whatsappMessage}`;
 
             card.innerHTML = `
-        <img src="${shoe.image}" alt="${shoe.name}">
-        <h3>${shoe.name}</h3>
-        <p class="product-id">ID: ${shoe.id}</p>
-        <p class="price">${shoe.price}</p>
-        <a href="${whatsappLink}" target="_blank">
-          <button>Buy This Shoe</button>
-        </a>
-      `;
+                <img src="${shoe.image}" alt="${shoe.name}">
+                <h3>${shoe.name}</h3>
+                <p class="product-id">ID: ${shoe.id}</p>
+                <p class="price">${shoe.price}</p>
+                <a href="${whatsappLink}" target="_blank">
+                    <button>Buy Now</button>
+                </a>
+            `;
             container.appendChild(card);
         });
 
@@ -202,11 +238,12 @@
 
             if (foundIndex !== -1) {
                 document.getElementById(`shoe-${foundIndex}`).scrollIntoView({
-                    behavior: "smooth"
+                    behavior: "smooth",
+                    block: "center"
                 });
             }
         });
     </script>
 </body>
-<script src="script.js"></script>
+
 </html>

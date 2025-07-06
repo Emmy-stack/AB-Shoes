@@ -699,9 +699,9 @@ iframe {
 
 @media (max-width: 480px) {
   iframe {
-    width: auto;
+    width: 350px;
     height: 1000px;
-    left: -5%;
+    left: -17%;
   }
   .site-footer {
     top: 500px;
